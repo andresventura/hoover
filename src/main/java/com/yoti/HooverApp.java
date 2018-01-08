@@ -14,15 +14,15 @@ public class HooverApp {
         // Could have used a DI framework but keeping it simple
         HooverService service = new HooverService(new DrivingInstructionFactory());
         JSONSerializer jsonSerializer = new GsonJSONSerializer();
-        this.hooverRoute = new HooverRoute(service, jsonSerializer,port);
+        hooverRoute = new HooverRoute(service, jsonSerializer,port);
     }
 
     void start() {
-        this.hooverRoute.startRoutes();
+        hooverRoute.startRoutes();
     }
 
     void stop() {
-        this.hooverRoute.stopRoutes();
+        hooverRoute.stopRoutes();
     }
 
     public static void main(String[] args) {

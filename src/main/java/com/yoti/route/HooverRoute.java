@@ -52,7 +52,7 @@ public class HooverRoute {
     }
 
     public void startRoutes() {
-        this.configure();
+        configure();
         post("/hoover", (request, response) -> hooverService.hoover(
                 jsonSerializer.fromJson(request.body(), HooverRequest.class)), jsonSerializer::toJson);
     }

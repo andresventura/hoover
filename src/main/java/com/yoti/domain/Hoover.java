@@ -17,24 +17,24 @@ public class Hoover {
     }
 
     private void validatePosition() {
-        if (!this.room.positionExists(this.position)) {
-            throw new InvalidRoomCoordinates(this.position);
+        if (!room.positionExists(position)) {
+            throw new InvalidRoomCoordinates(position);
         }
     }
 
     public void follow(List<DrivingInstruction> instructions) {
         for (DrivingInstruction instruction : instructions) {
-            Coordinates nextPosition = instruction.getFn().apply(this.position);
+            Coordinates nextPosition = instruction.getFn().apply(position);
             if (room.positionExists(nextPosition)) {
-                this.position = nextPosition;
+                position = nextPosition;
                 hoover();
             }
         }
     }
 
     private void hoover() {
-        if(room.removePatchOfDirtAt(this.position)) {
-            this.hooveredPatchCount++;
+        if(room.removePatchOfDirtAt(position)) {
+            hooveredPatchCount++;
         }
     }
 
