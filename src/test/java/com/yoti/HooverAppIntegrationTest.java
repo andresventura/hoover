@@ -65,7 +65,7 @@ public class HooverAppIntegrationTest {
                 .asJson();
 
         String errorMessage = jsonNodeHttpResponse.getBody().getObject().getString("error");
-        assertEquals("Unrecognized instruction X", errorMessage);
+        assertEquals("Unrecognized instruction: X", errorMessage);
 
         assertEquals(jsonNodeHttpResponse.getStatus(), 400);
         assertEquals("application/json", jsonNodeHttpResponse.getHeaders().get("Content-Type").get(0));

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 public class GsonJSONSerializer implements JSONSerializer {
 
-    private Gson gson = createGson();
+    private final Gson gson = createGson();
 
     @Override
     public String toJson(Object src) {

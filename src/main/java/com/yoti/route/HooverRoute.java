@@ -1,8 +1,11 @@
 package com.yoti.route;
 
 import com.google.gson.JsonParseException;
+import com.yoti.domain.InvalidRoomCoordinates;
+import com.yoti.domain.instruction.UnrecognizedInstructionException;
 import com.yoti.service.HooverRequest;
 import com.yoti.service.HooverService;
+import spark.Response;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static spark.Spark.*;
@@ -18,28 +21,34 @@ public class HooverRoute {
         this.port = port;
     }
 
-    private String formatError(String errorMessage) {
-        return String.format("{ \"error\": \"%s\" }", errorMessage);
-    }
-
     private void configure() {
         port(port);
 
-        exception(IllegalArgumentException.class, (exception, request, response) -> {
-            response.type("application/json");
-            response.status(SC_BAD_REQUEST);
-            response.body(formatError(exception.getMessage()));
+        exception(UnrecognizedInstructionException.class, (exception, request, response) -> {
+            setBadRequest(response, exception.getMessage());
+        });
+
+        exception(InvalidRoomCoordinates.class, (exception, request, response) -> {
+            setBadRequest(response, exception.getMessage());
         });
 
         exception(JsonParseException.class, (exception, request, response) -> {
-            response.type("application/json");
-            response.status(SC_BAD_REQUEST);
-            response.body(formatError("Invalid JSON"));
+            setBadRequest(response,"Invalid JSON");
         });
 
         after((request, response) -> {
             response.type("application/json");
         });
+    }
+
+    private void setBadRequest(Response response, String message) {
+        response.type("application/json");
+        response.status(SC_BAD_REQUEST);
+        response.body(formatError(message));
+    }
+
+    private String formatError(String errorMessage) {
+        return String.format("{ \"error\": \"%s\" }", errorMessage);
     }
 
     public void startRoutes() {

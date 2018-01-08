@@ -18,13 +18,13 @@ public class Hoover {
 
     private void validatePosition() {
         if (!this.room.positionExists(this.position)) {
-            throw new IllegalArgumentException("Invalid room position: " + this.position);
+            throw new InvalidRoomCoordinates(this.position);
         }
     }
 
     public void follow(List<DrivingInstruction> instructions) {
         for (DrivingInstruction instruction : instructions) {
-            Coordinates nextPosition = instruction.apply(this.position);
+            Coordinates nextPosition = instruction.getFn().apply(this.position);
             if (room.positionExists(nextPosition)) {
                 this.position = nextPosition;
                 hoover();

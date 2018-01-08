@@ -5,7 +5,7 @@ import com.yoti.domain.Room;
 import com.yoti.domain.instruction.DrivingInstructionFactory;
 
 public class HooverService {
-    private DrivingInstructionFactory drivingInstructionFactory;
+    private final DrivingInstructionFactory drivingInstructionFactory;
 
     public HooverService(DrivingInstructionFactory drivingInstructionFactory) {
         this.drivingInstructionFactory = drivingInstructionFactory;
@@ -14,7 +14,7 @@ public class HooverService {
     public HooverResponse hoover(HooverRequest hooverRequest) {
         Room room = new Room(hooverRequest.getRoomSize(), hooverRequest.getPatches());
         Hoover hoover = new Hoover(hooverRequest.getCoords(), room);
-        hoover.follow(drivingInstructionFactory.getInstructions(hooverRequest.getInstructions()));
+        hoover.follow(drivingInstructionFactory.createInstructions(hooverRequest.getInstructions()));
         return new HooverResponse(hoover.getPosition(), hoover.getHooveredPatchCount());
     }
 }

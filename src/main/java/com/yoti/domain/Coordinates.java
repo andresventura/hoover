@@ -3,6 +3,7 @@ package com.yoti.domain;
 import java.util.Objects;
 
 public class Coordinates {
+
     private final Integer x;
     private final Integer y;
 
